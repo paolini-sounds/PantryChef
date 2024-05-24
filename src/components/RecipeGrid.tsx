@@ -1,6 +1,4 @@
-import { useState } from "react";
 import apiClient from "../services/api-client";
-import { Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 
 interface Recipe {
@@ -20,11 +18,18 @@ const RecipeGrid = () => {
 			.get<FetchRecipesResponse>("/complexSearch")
 			.then((res) => res.data.results);
 
-	const { data: recipes } = useQuery({
+	const {
+		data: recipes,
+		error,
+		isLoading,
+	} = useQuery<Recipe[], Error>({
 		queryKey: ["recipes"],
 		queryFn: fetchRecipes,
 		staleTime: 10 * 1000,
 	});
+
+	if (isLoading) return <p>Loading...</p>;
+	if (error) return <p>{error.message}</p>;
 
 	return (
 		<>
