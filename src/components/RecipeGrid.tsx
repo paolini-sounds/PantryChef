@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import apiClient from "../services/api-client";
 import { Text } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 
 interface Recipe {
 	id: number;
@@ -14,22 +15,21 @@ interface FetchRecipesResponse {
 }
 
 const RecipeGrid = () => {
-	const [recipes, setRecipes] = useState<Recipe[]>([]);
-	const [error, setError] = useState("");
-	console.log(error);
-
-	useEffect(() => {
+	const fetchRecipes = () =>
 		apiClient
 			.get<FetchRecipesResponse>("/complexSearch")
-			.then((res) => setRecipes(res.data.results))
-			.catch((err) => setError(err.message));
-	}, []);
+			.then((res) => res.data.results);
 
-	if (error) return <Text>{error}</Text>;
+	const { data: recipes } = useQuery({
+		queryKey: ["recipes"],
+		queryFn: fetchRecipes,
+		staleTime: 10 * 1000,
+	});
+
 	return (
 		<>
 			<ul>
-				{recipes.map((recipe) => (
+				{recipes?.map((recipe) => (
 					<li>{recipe.title}</li>
 				))}
 			</ul>
