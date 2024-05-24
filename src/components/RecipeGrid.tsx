@@ -1,43 +1,26 @@
-import apiClient from "../services/api-client";
-import { useQuery } from "@tanstack/react-query";
-
-interface Recipe {
-	id: number;
-	title: string;
-	image: string;
-}
-
-interface FetchRecipesResponse {
-	number: number;
-	results: Recipe[];
-}
+import { GridItem, SimpleGrid, Text } from "@chakra-ui/react";
+import useRecipes from "../hooks/useRecipes";
+import RecipeCard from "./RecipeCard";
 
 const RecipeGrid = () => {
-	const fetchRecipes = () =>
-		apiClient
-			.get<FetchRecipesResponse>("/complexSearch")
-			.then((res) => res.data.results);
+	const { data: recipes, error, isLoading } = useRecipes();
 
-	const {
-		data: recipes,
-		error,
-		isLoading,
-	} = useQuery<Recipe[], Error>({
-		queryKey: ["recipes"],
-		queryFn: fetchRecipes,
-		staleTime: 10 * 1000,
-	});
-
-	if (isLoading) return <p>Loading...</p>;
-	if (error) return <p>{error.message}</p>;
+	if (isLoading) return <Text>Loading...</Text>;
+	if (error) return <Text>{error.message}</Text>;
 
 	return (
 		<>
-			<ul>
+			<SimpleGrid
+				columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
+				padding='10px'
+				spacing={6}
+			>
 				{recipes?.map((recipe) => (
-					<li>{recipe.title}</li>
+					<GridItem>
+						<RecipeCard key={recipe.id} recipe={recipe} />
+					</GridItem>
 				))}
-			</ul>
+			</SimpleGrid>
 		</>
 	);
 };
