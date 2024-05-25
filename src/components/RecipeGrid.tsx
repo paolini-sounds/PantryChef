@@ -1,11 +1,37 @@
-import { GridItem, SimpleGrid, Text } from "@chakra-ui/react";
-import useRecipes from "../hooks/useRecipes";
-import RecipeCard from "./RecipeCard";
+import {
+	Box,
+	Button,
+	Flex,
+	GridItem,
+	SimpleGrid,
+	Text,
+} from '@chakra-ui/react';
+import useRecipes from '../hooks/useRecipes';
+import RecipeCard from './RecipeCard';
+import React from 'react';
+import { bouncy } from 'ldrs';
+
+bouncy.register();
+
+// Default values shown
 
 const RecipeGrid = () => {
-	const { data: recipes, error, isLoading } = useRecipes();
+	const pageSize = 10;
+	const {
+		data,
+		error,
+		isLoading,
+		hasNextPage,
+		fetchNextPage,
+		isFetchingNextPage,
+	} = useRecipes({ pageSize });
 
-	if (isLoading) return <Text>Loading...</Text>;
+	if (isLoading)
+		return (
+			<Flex justifyContent='center' paddingY='20%'>
+				<l-bouncy size='65' speed='1.75' color='black'></l-bouncy>
+			</Flex>
+		);
 	if (error) return <Text>{error.message}</Text>;
 
 	return (
@@ -15,12 +41,22 @@ const RecipeGrid = () => {
 				padding='10px'
 				spacing={6}
 			>
-				{recipes?.map((recipe) => (
-					<GridItem>
-						<RecipeCard key={recipe.id} recipe={recipe} />
-					</GridItem>
+				{data?.pages.map((page, index) => (
+					<React.Fragment key={index}>
+						{page.map((recipe) => (
+							<GridItem>
+								<RecipeCard key={recipe.id} recipe={recipe} />
+							</GridItem>
+						))}
+					</React.Fragment>
 				))}
 			</SimpleGrid>
+			<Button
+				disabled={!hasNextPage || isFetchingNextPage}
+				onClick={() => fetchNextPage()}
+			>
+				Next
+			</Button>
 		</>
 	);
 };
