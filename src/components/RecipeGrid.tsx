@@ -37,11 +37,7 @@ const RecipeGrid = () => {
 
 	return (
 		<>
-			<SimpleGrid
-				columns={{ sm: 1, md: 2, lg: 3, xl: 4 }}
-				padding='10px'
-				spacing={6}
-			>
+			<SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing={6}>
 				{data?.pages.map((page, index) => (
 					<React.Fragment key={index}>
 						{page.map((recipe) => (

@@ -23,19 +23,24 @@ function App() {
 			}}
 			templateColumns={{
 				base: '1fr',
-				lg: '225px 1fr',
+				lg: '25% 1fr',
 			}}
 		>
 			<GridItem area='nav'>
 				<NavBar
 					onSearch={(searchText) =>
-						setRecipeQuery({ ...recipeQuery, ingredients: [searchText] })
+						setRecipeQuery({
+							...recipeQuery,
+							ingredients: recipeQuery.ingredients
+								? [...recipeQuery.ingredients, searchText]
+								: [searchText],
+						})
 					}
 				/>
 			</GridItem>
 
 			<GridItem area={{ bade: 'filters', lg: 'aside' }} paddingX={5}>
-				<SidePanel />
+				<SidePanel recipeQuery={recipeQuery} />
 			</GridItem>
 
 			<GridItem gridArea='main'>
