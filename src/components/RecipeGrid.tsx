@@ -10,6 +10,7 @@ import useRecipes from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
 import React from 'react';
 import { bouncy } from 'ldrs';
+import CustomButton from './CustomButton';
 
 bouncy.register();
 
@@ -51,12 +52,12 @@ const RecipeGrid = () => {
 					</React.Fragment>
 				))}
 			</SimpleGrid>
-			<Button
+			<CustomButton
 				disabled={!hasNextPage || isFetchingNextPage}
-				onClick={() => fetchNextPage()}
+				onClick={fetchNextPage}
 			>
-				Next
-			</Button>
+				Load More
+			</CustomButton>
 		</>
 	);
 };
