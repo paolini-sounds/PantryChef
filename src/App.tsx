@@ -1,21 +1,20 @@
-import { Box, Grid, GridItem } from '@chakra-ui/react';
+import { Box, Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import RecipeGrid from './components/RecipeGrid';
 import NavBar from './components/NavBar';
 import SidePanel from './components/filterPanel/SidePanel';
-import { useState } from 'react';
-
-export interface RecipeQuery {
-	pageSize: number;
-	ingredients?: string[];
-	intolerances?: string[];
-	excludeIngredients?: string[];
-	diets?: string[];
-}
+import { useRef } from 'react';
+import useQueryParams from './hooks/useQueryParams';
 
 function App() {
-	const [recipeQuery, setRecipeQuery] = useState<RecipeQuery>(
-		{} as RecipeQuery
-	);
+	const { isOpen, onOpen, onClose } = useDisclosure();
+	const btnRef = useRef<HTMLButtonElement>(null);
+	const {
+		recipeQuery,
+		addIngredient,
+		removeIngredient,
+		handleSelectIntolerance,
+		handleSelectDiet,
+	} = useQueryParams();
 
 	return (
 		<Grid
@@ -25,24 +24,33 @@ function App() {
 			}}
 			templateColumns={{
 				base: '1fr',
-				lg: '25% 1fr',
+				lg: '1fr',
 			}}
 		>
 			<GridItem area='nav'>
 				<NavBar
-					onSearch={(searchText) =>
-						setRecipeQuery({
-							...recipeQuery,
-							ingredients: recipeQuery.ingredients
-								? [...recipeQuery.ingredients, searchText]
-								: [searchText],
-						})
-					}
+					btnRef={btnRef}
+					onOpen={onOpen}
+					recipeQuery={recipeQuery}
+					removeIngredient={(id) => removeIngredient(id)}
+					onSearch={(searchText) => addIngredient(searchText)}
 				/>
 			</GridItem>
 
 			<GridItem area={{ bade: 'filters', lg: 'aside' }} paddingX={5}>
-				<SidePanel recipeQuery={recipeQuery} />
+				<SidePanel
+					onSelectIntolerance={(value, isChecked) =>
+						handleSelectIntolerance(value, isChecked)
+					}
+					onSelectDiet={(value, isChecked) => {
+						handleSelectDiet(value, isChecked);
+					}}
+					btnRef={btnRef}
+					isOpen={isOpen}
+					onClose={onClose}
+					onOpen={onOpen}
+					recipeQuery={recipeQuery}
+				/>
 			</GridItem>
 
 			<GridItem gridArea='main'>

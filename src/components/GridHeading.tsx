@@ -1,14 +1,20 @@
 import { Heading } from '@chakra-ui/react';
-import { RecipeQuery } from '../App';
+import { RecipeQuery } from '../hooks/useQueryParams';
 
 interface Props {
 	recipeQuery: RecipeQuery;
 }
 
 const GridHeading = ({ recipeQuery }: Props) => {
+	const results =
+		recipeQuery.ingredients?.length ||
+		recipeQuery.diets?.length ||
+		recipeQuery.intolerances?.length ||
+		recipeQuery.excludeParams?.length;
+
 	return (
-		<Heading as='h1' size='xl' paddingBottom='10'>
-			{recipeQuery.ingredients ? 'Results' : 'Trending Recipes'}
+		<Heading as='h1' size='xl' paddingBottom='10' paddingLeft={5}>
+			{results ? 'Results' : 'Trending Recipes'}
 		</Heading>
 	);
 };

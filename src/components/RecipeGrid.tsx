@@ -1,11 +1,11 @@
 import { Flex, GridItem, SimpleGrid, Text } from '@chakra-ui/react';
-import useRecipes from '../hooks/useRecipes';
+import useRecipes, { Recipe } from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
 import React from 'react';
 import { bouncy } from 'ldrs';
 import CustomButton from './CustomButton';
 import GridHeading from './GridHeading';
-import { RecipeQuery } from '../App';
+import { RecipeQuery } from '../hooks/useQueryParams';
 
 bouncy.register();
 
@@ -26,21 +26,27 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 
 	if (isLoading)
 		return (
-			<Flex justifyContent='center' paddingY='20%'>
+			<Flex justifyContent={'flex-start'} paddingY='20%'>
 				<l-bouncy size='65' speed='1.75' color='black'></l-bouncy>
 			</Flex>
 		);
+
 	if (error) return <Text>{error.message}</Text>;
 
 	return (
 		<>
+			{isLoading && (
+				<Flex justifyContent={'flex-start'} paddingY='20%'>
+					<l-bouncy size='65' speed='1.75' color='black'></l-bouncy>
+				</Flex>
+			)}
 			<GridHeading recipeQuery={recipeQuery} />
 			<SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing={6}>
-				{data.pages.map((page, index) => (
+				{(data.pages as Array<any>).map((page, index) => (
 					<React.Fragment key={index}>
-						{page.map((recipe) => (
-							<GridItem>
-								<RecipeCard key={recipe.id} recipe={recipe} />
+						{page.map((recipe: Recipe) => (
+							<GridItem key={recipe.id}>
+								<RecipeCard recipe={recipe} />
 							</GridItem>
 						))}
 					</React.Fragment>

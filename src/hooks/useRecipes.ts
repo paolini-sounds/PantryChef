@@ -15,6 +15,9 @@ interface FetchRecipesResponse {
 }
 
 const useRecipes = (query: RecipeQuery) => {
+	const names = query.ingredients?.map((ingredient) => ingredient.name);
+	const ingredients = names?.join(',');
+
 	async function fetchRecipes({ pageParam = 1 }) {
 		const response = await apiClient.get<FetchRecipesResponse>(
 			'/complexSearch',
@@ -22,8 +25,8 @@ const useRecipes = (query: RecipeQuery) => {
 				params: {
 					number: query.pageSize,
 					offset: (pageParam - 1) * query.pageSize,
-					includeIngredients: query.ingredients?.join(','),
-					intolerances: query.intolerances?.join(','),
+					includeIngredients: ingredients,
+					excludeIngredients: query.excludeParams,
 				},
 			}
 		);

@@ -2,49 +2,65 @@ import {
 	Box,
 	Heading,
 	Flex,
-	Tag,
-	TagLabel,
-	TagCloseButton,
+	Drawer,
+	DrawerBody,
+	DrawerFooter,
+	DrawerHeader,
+	DrawerOverlay,
+	DrawerContent,
+	CloseButton,
+	Stack,
 } from '@chakra-ui/react';
-import { RecipeQuery } from '../../App';
-import IncludeIngredientsPanel from './IncludeIngredientsPanel';
+
+import ExcludeIngredientsPanel from './ExcludeIngredientsPanel';
+
+import DietPanel from './DietPanel';
+import { RecipeQuery } from '../../hooks/useQueryParams';
 
 interface Props {
 	recipeQuery: RecipeQuery;
+	onSelectIntolerance: (intolerance: string, isChecked: boolean) => void;
+	onSelectDiet: (diet: string, isChecked: boolean) => void;
+	isOpen: boolean;
+	onOpen: () => void;
+	onClose: () => void;
+	btnRef: React.RefObject<HTMLButtonElement>;
 }
 
-const SidePanel = ({ recipeQuery }: Props) => {
+const SidePanel = ({
+	onSelectIntolerance,
+	onSelectDiet,
+	isOpen,
+	onClose,
+	btnRef,
+}: Props) => {
 	return (
-		<Box
-			border='1px solid black'
-			width='100%'
-			height={{ sm: '25vh', lg: '75vh' }}
-		>
-			<Heading padding={5} fontSize='xl'>
-				Filters:
-			</Heading>
-
-			<Flex
-				padding={5}
-				width='100%'
-				justifyContent='space-between'
-				flexDirection={{ sm: 'row', lg: 'column' }}
+		<>
+			<Drawer
+				isOpen={isOpen}
+				placement='left'
+				onClose={onClose}
+				finalFocusRef={btnRef}
+				size={{ sm: 'xs', lg: 'sm' }}
 			>
-				<IncludeIngredientsPanel recipeQuery={recipeQuery} />
-				<Box
-					height={{ sm: '100%', lg: '35%' }}
-					width={{ sm: '35%', lg: '100%' }}
-				>
-					<Heading paddingY={3} fontSize='lg'>
-						Intolerances:{' '}
-					</Heading>
-					{recipeQuery.intolerances &&
-						recipeQuery.intolerances.map((restriction) => (
-							<Tag>{restriction}</Tag>
-						))}
-				</Box>
-			</Flex>
-		</Box>
+				<DrawerOverlay />
+				<DrawerContent border='1px solid black' height='100vh'>
+					<Flex padding={2} direction='column' align='flex-end'>
+						<CloseButton onClick={onClose} />
+					</Flex>
+
+					<DrawerHeader padding={5} fontSize='xl'>
+						Additional Search Options:
+					</DrawerHeader>
+					<DrawerBody>
+						<ExcludeIngredientsPanel
+							onSelectIntolerance={onSelectIntolerance}
+						/>
+						<DietPanel onSelectDiet={onSelectDiet} />
+					</DrawerBody>
+				</DrawerContent>
+			</Drawer>
+		</>
 	);
 };
 
