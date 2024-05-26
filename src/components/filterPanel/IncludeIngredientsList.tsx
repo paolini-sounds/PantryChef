@@ -1,4 +1,4 @@
-import { Tag, TagLabel, TagCloseButton, Box } from '@chakra-ui/react';
+import { Tag, TagLabel, TagCloseButton, Box, Flex } from '@chakra-ui/react';
 
 import { RecipeQuery } from '../../hooks/useQueryParams';
 
@@ -13,11 +13,7 @@ const IncludeIngredientsList = ({ recipeQuery, removeIngredient }: Props) => {
 	}
 
 	return (
-		<Box
-			minHeight={{ sm: '0', lg: '50px' }}
-			height={{ sm: '100%', lg: '35%' }}
-			width={{ sm: '35%', lg: '100%' }}
-		>
+		<Flex>
 			{recipeQuery.ingredients &&
 				recipeQuery.ingredients.map((ingredient) => (
 					<Tag variant='outline' margin={1} key={ingredient.id}>
@@ -25,7 +21,7 @@ const IncludeIngredientsList = ({ recipeQuery, removeIngredient }: Props) => {
 						<TagCloseButton onClick={() => removeIngredient(ingredient?.id)} />
 					</Tag>
 				))}
-		</Box>
+		</Flex>
 	);
 };
 

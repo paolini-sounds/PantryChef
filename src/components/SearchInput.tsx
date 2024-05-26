@@ -21,6 +21,8 @@ const SearchInput = ({ onSearch }: Props) => {
 			<InputGroup>
 				<InputLeftElement children={<FcSearch />} />
 				<Input
+					width={300}
+					marginBottom={2}
 					ref={ref}
 					borderRadius={20}
 					placeholder='Search ingredients...'

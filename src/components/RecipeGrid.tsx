@@ -1,4 +1,14 @@
-import { Button, Flex, GridItem, SimpleGrid, Text } from '@chakra-ui/react';
+import {
+	Button,
+	Flex,
+	GridItem,
+	HStack,
+	Heading,
+	SimpleGrid,
+	Stack,
+	Text,
+	VStack,
+} from '@chakra-ui/react';
 import useRecipes, { Recipe } from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
 import React from 'react';
@@ -6,6 +16,7 @@ import { bouncy } from 'ldrs';
 import GridHeading from './GridHeading';
 import { RecipeQuery } from '../hooks/useQueryParams';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import { PiMaskSadLight } from 'react-icons/pi';
 
 bouncy.register();
 
@@ -26,22 +37,34 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 
 	if (isLoading)
 		return (
-			<Flex justifyContent={'flex-start'} paddingY='20%'>
+			<Flex justifyContent='center' alignItems='center' paddingY='20%'>
 				<l-bouncy size='65' speed='1.75' color='black'></l-bouncy>
 			</Flex>
 		);
 
-	if (error) return <Text>{error.message}</Text>;
+	if (!data?.pages[0]?.length)
+		return (
+			<Stack
+				justifyContent='center'
+				marginTop={10}
+				direction={{ sm: 'column', md: 'row' }}
+			>
+				<Heading>Sorry, no recipes found</Heading>
+				<PiMaskSadLight size='25px' />
+			</Stack>
+		);
 
 	return (
-		<>
-			{isLoading && (
-				<Flex justifyContent={'flex-start'} paddingY='20%'>
-					<l-bouncy size='65' speed='1.75' color='black'></l-bouncy>
-				</Flex>
-			)}
+		<Flex
+			direction='column'
+			width={{ sm: '90%', md: '80%', lg: '70%', xl: '60%' }}
+			padding='0'
+		>
 			<GridHeading recipeQuery={recipeQuery} />
-			<SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing={6}>
+			<SimpleGrid
+				columns={{ sm: 1, md: 2, lg: 2, xl: 3 }}
+				spacing={{ sm: 5, md: 3, lg: 2, xl: 1 }}
+			>
 				{(data.pages as Array<any>).map((page, index) => (
 					<React.Fragment key={index}>
 						{page.map((recipe: Recipe) => (
@@ -53,19 +76,21 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 				))}
 			</SimpleGrid>
 
-			<Button
-				margin={5}
-				size='xl'
-				variant='link'
-				disabled={!hasNextPage || isFetchingNextPage}
-				onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-					fetchNextPage()
-				}
-			>
-				Load More
-				<MdOutlineKeyboardArrowDown />
-			</Button>
-		</>
+			{hasNextPage && (
+				<Button
+					margin={5}
+					size='xl'
+					variant='link'
+					disabled={!hasNextPage || isFetchingNextPage}
+					onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+						fetchNextPage()
+					}
+				>
+					Load More
+					<MdOutlineKeyboardArrowDown />
+				</Button>
+			)}
+		</Flex>
 	);
 };
 

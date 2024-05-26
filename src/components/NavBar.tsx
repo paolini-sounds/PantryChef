@@ -1,4 +1,4 @@
-import { Button, HStack, Stack } from '@chakra-ui/react';
+import { Button, Flex, HStack, Stack } from '@chakra-ui/react';
 import SearchInput from './SearchInput';
 
 import IncludeIngredientsList from './filterPanel/IncludeIngredientsList';
@@ -21,27 +21,27 @@ const NavBar = ({
 	btnRef,
 }: Props) => {
 	return (
-		<HStack paddingX={2}>
-			<Button ref={btnRef} variant='link' onClick={onOpen}>
-				Options
-				<MdOutlineKeyboardArrowRight size='25px' />
-				{/* <LuArrowRightFromLine size='25px' /> */}
-			</Button>
-			<Stack
-				paddingLeft={5}
-				paddingY={10}
-				width='60%'
-				margin='auto'
+		<Stack paddingX={2}>
+			<Flex
+				direction='column'
 				justifyContent='center'
+				alignItems='center'
+				paddingTop={10}
 			>
 				<SearchInput onSearch={onSearch} />
-
 				<IncludeIngredientsList
 					removeIngredient={removeIngredient}
 					recipeQuery={recipeQuery}
 				/>
-			</Stack>
-		</HStack>
+			</Flex>
+			<Flex width='100%'>
+				<Button ref={btnRef} variant='link' onClick={onOpen}>
+					Options
+					<MdOutlineKeyboardArrowRight size='25px' />
+					{/* <LuArrowRightFromLine size='25px' /> */}
+				</Button>
+			</Flex>
+		</Stack>
 	);
 };
 

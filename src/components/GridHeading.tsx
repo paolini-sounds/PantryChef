@@ -13,8 +13,8 @@ const GridHeading = ({ recipeQuery }: Props) => {
 		recipeQuery.excludeParams?.length;
 
 	return (
-		<Heading as='h1' size='xl' paddingBottom='10' paddingLeft={5}>
-			{results ? 'Results' : 'Trending Recipes'}
+		<Heading as='h1' size='xl' paddingY='5' paddingLeft={5}>
+			{results ? 'Results' : 'Popular Recipes'}
 		</Heading>
 	);
 };
