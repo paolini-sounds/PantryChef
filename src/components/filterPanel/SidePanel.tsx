@@ -1,10 +1,7 @@
 import {
-	Box,
-	Heading,
 	Flex,
 	Drawer,
 	DrawerBody,
-	DrawerFooter,
 	DrawerHeader,
 	DrawerOverlay,
 	DrawerContent,

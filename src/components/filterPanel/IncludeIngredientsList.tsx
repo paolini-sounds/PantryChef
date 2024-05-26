@@ -1,4 +1,4 @@
-import { Tag, TagLabel, TagCloseButton, Box, Flex } from '@chakra-ui/react';
+import { Tag, TagLabel, TagCloseButton, Flex } from '@chakra-ui/react';
 
 import { RecipeQuery } from '../../hooks/useQueryParams';
 

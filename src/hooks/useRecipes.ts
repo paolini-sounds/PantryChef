@@ -1,4 +1,4 @@
-import { useInfiniteQuery } from '@tanstack/react-query';
+import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query';
 import apiClient from '../services/api-client';
 import { RecipeQuery } from './useQueryParams';
 
@@ -18,13 +18,13 @@ const useRecipes = (query: RecipeQuery) => {
 	const names = query.ingredients?.map((ingredient) => ingredient.name);
 	const ingredients = names?.join(',');
 
-	async function fetchRecipes({ pageParam = 1 }) {
+	async function fetchRecipes({ pageParam = 1 }: QueryFunctionContext) {
 		const response = await apiClient.get<FetchRecipesResponse>(
 			'/complexSearch',
 			{
 				params: {
 					number: query.pageSize,
-					offset: (pageParam - 1) * query.pageSize,
+					offset: ((pageParam as number) - 1) * query.pageSize,
 					includeIngredients: ingredients,
 					excludeIngredients: query.excludeParams,
 				},

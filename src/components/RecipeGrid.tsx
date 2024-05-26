@@ -2,12 +2,10 @@ import {
 	Button,
 	Flex,
 	GridItem,
-	HStack,
 	Heading,
 	SimpleGrid,
 	Stack,
 	Text,
-	VStack,
 } from '@chakra-ui/react';
 import useRecipes, { Recipe } from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
@@ -42,7 +40,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 			</Flex>
 		);
 
-	if (!data?.pages[0]?.length)
+	if (Array.isArray(data?.pages[0]) && data?.pages[0]?.length === 0) {
 		return (
 			<Stack
 				justifyContent='center'
@@ -53,7 +51,9 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 				<PiMaskSadLight size='25px' />
 			</Stack>
 		);
+	}
 
+	if (error) return <Text>Error: {error.message}</Text>;
 	return (
 		<Flex
 			direction='column'
@@ -65,7 +65,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 				columns={{ sm: 1, md: 2, lg: 2, xl: 3 }}
 				spacing={{ sm: 5, md: 3, lg: 2, xl: 1 }}
 			>
-				{(data.pages as Array<any>).map((page, index) => (
+				{(data?.pages as Array<any>).map((page, index) => (
 					<React.Fragment key={index}>
 						{page.map((recipe: Recipe) => (
 							<GridItem key={recipe.id}>
@@ -82,9 +82,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 					size='xl'
 					variant='link'
 					disabled={!hasNextPage || isFetchingNextPage}
-					onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-						fetchNextPage()
-					}
+					onClick={() => fetchNextPage()}
 				>
 					Load More
 					<MdOutlineKeyboardArrowDown />

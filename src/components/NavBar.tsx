@@ -1,4 +1,4 @@
-import { Button, Flex, HStack, Stack } from '@chakra-ui/react';
+import { Button, Flex, Stack } from '@chakra-ui/react';
 import SearchInput from './SearchInput';
 
 import IncludeIngredientsList from './filterPanel/IncludeIngredientsList';
