@@ -1,12 +1,4 @@
-import {
-	Box,
-	Center,
-	Container,
-	Flex,
-	Grid,
-	GridItem,
-	useDisclosure,
-} from '@chakra-ui/react';
+import { Center, Flex, GridItem, useDisclosure } from '@chakra-ui/react';
 import RecipeGrid from './components/RecipeGrid';
 import NavBar from './components/NavBar';
 import SidePanel from './components/filterPanel/SidePanel';

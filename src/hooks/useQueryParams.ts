@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
+import cuid from 'cuid';
 
 interface Param {
 	id: string;
@@ -50,7 +50,7 @@ const useQueryParams = () => {
 
 	const addIngredient = (name: string) => {
 		const newIngredient: Param = {
-			id: uuidv4(),
+			id: cuid(),
 			name,
 		};
 		setRecipeQuery({
