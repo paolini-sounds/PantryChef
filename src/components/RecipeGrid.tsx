@@ -1,11 +1,11 @@
-import { Flex, GridItem, SimpleGrid, Text } from '@chakra-ui/react';
+import { Button, Flex, GridItem, SimpleGrid, Text } from '@chakra-ui/react';
 import useRecipes, { Recipe } from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
 import React from 'react';
 import { bouncy } from 'ldrs';
-import CustomButton from './CustomButton';
 import GridHeading from './GridHeading';
 import { RecipeQuery } from '../hooks/useQueryParams';
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 
 bouncy.register();
 
@@ -52,12 +52,19 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 					</React.Fragment>
 				))}
 			</SimpleGrid>
-			<CustomButton
+
+			<Button
+				margin={5}
+				size='xl'
+				variant='link'
 				disabled={!hasNextPage || isFetchingNextPage}
-				onClick={fetchNextPage}
+				onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
+					fetchNextPage()
+				}
 			>
 				Load More
-			</CustomButton>
+				<MdOutlineKeyboardArrowDown />
+			</Button>
 		</>
 	);
 };

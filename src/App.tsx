@@ -1,4 +1,4 @@
-import { Box, Grid, GridItem, useDisclosure } from '@chakra-ui/react';
+import { Box, Flex, Grid, GridItem, useDisclosure } from '@chakra-ui/react';
 import RecipeGrid from './components/RecipeGrid';
 import NavBar from './components/NavBar';
 import SidePanel from './components/filterPanel/SidePanel';
@@ -17,16 +17,7 @@ function App() {
 	} = useQueryParams();
 
 	return (
-		<Grid
-			templateAreas={{
-				base: `"nav" "filters" "main"`,
-				lg: `"nav   nav" "aside  main"`,
-			}}
-			templateColumns={{
-				base: '1fr',
-				lg: '1fr',
-			}}
-		>
+		<Grid templateAreas={`"nav" "main"`}>
 			<GridItem area='nav'>
 				<NavBar
 					btnRef={btnRef}
@@ -37,7 +28,7 @@ function App() {
 				/>
 			</GridItem>
 
-			<GridItem area={{ bade: 'filters', lg: 'aside' }} paddingX={5}>
+			<GridItem area='main' paddingX={5}>
 				<SidePanel
 					onSelectIntolerance={(value, isChecked) =>
 						handleSelectIntolerance(value, isChecked)
@@ -54,9 +45,13 @@ function App() {
 			</GridItem>
 
 			<GridItem gridArea='main'>
-				<Box paddingX={{ sm: 2, md: 10, lg: 20 }}>
+				<Flex
+					direction='column'
+					justifyContent='center'
+					paddingX={{ sm: 2, md: 10, lg: 20 }}
+				>
 					<RecipeGrid recipeQuery={recipeQuery} />
-				</Box>
+				</Flex>
 			</GridItem>
 		</Grid>
 	);

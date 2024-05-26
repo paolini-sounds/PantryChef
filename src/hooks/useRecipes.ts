@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import apiClient from '../services/api-client';
-import { RecipeQuery } from '../App';
+import { RecipeQuery } from './useQueryParams';
 
 export interface Recipe {
 	id: number;
@@ -33,7 +33,7 @@ const useRecipes = (query: RecipeQuery) => {
 		return response.data.results;
 	}
 
-	return useInfiniteQuery<Recipe[]>({
+	return useInfiniteQuery<Recipe[], Error>({
 		queryKey: ['recipes', query],
 		queryFn: fetchRecipes,
 		staleTime: 1 * 60 * 1000,

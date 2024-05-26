@@ -10,6 +10,7 @@ import {
 	DrawerContent,
 	CloseButton,
 	Stack,
+	Divider,
 } from '@chakra-ui/react';
 
 import ExcludeIngredientsPanel from './ExcludeIngredientsPanel';
@@ -53,10 +54,13 @@ const SidePanel = ({
 						Additional Search Options:
 					</DrawerHeader>
 					<DrawerBody>
-						<ExcludeIngredientsPanel
-							onSelectIntolerance={onSelectIntolerance}
-						/>
-						<DietPanel onSelectDiet={onSelectDiet} />
+						<Stack spacing={5}>
+							<ExcludeIngredientsPanel
+								onSelectIntolerance={onSelectIntolerance}
+							/>
+							<Divider />
+							<DietPanel onSelectDiet={onSelectDiet} />
+						</Stack>
 					</DrawerBody>
 				</DrawerContent>
 			</Drawer>
