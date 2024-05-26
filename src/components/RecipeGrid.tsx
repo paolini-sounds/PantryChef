@@ -1,22 +1,19 @@
-import {
-	Box,
-	Button,
-	Flex,
-	GridItem,
-	SimpleGrid,
-	Text,
-} from '@chakra-ui/react';
+import { Flex, GridItem, SimpleGrid, Text } from '@chakra-ui/react';
 import useRecipes from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
 import React from 'react';
 import { bouncy } from 'ldrs';
 import CustomButton from './CustomButton';
+import GridHeading from './GridHeading';
+import { RecipeQuery } from '../App';
 
 bouncy.register();
 
-// Default values shown
+interface Props {
+	recipeQuery: RecipeQuery;
+}
 
-const RecipeGrid = () => {
+const RecipeGrid = ({ recipeQuery }: Props) => {
 	const pageSize = 10;
 	const {
 		data,
@@ -25,7 +22,7 @@ const RecipeGrid = () => {
 		hasNextPage,
 		fetchNextPage,
 		isFetchingNextPage,
-	} = useRecipes({ pageSize });
+	} = useRecipes({ ...recipeQuery, pageSize });
 
 	if (isLoading)
 		return (
@@ -37,8 +34,9 @@ const RecipeGrid = () => {
 
 	return (
 		<>
+			<GridHeading recipeQuery={recipeQuery} />
 			<SimpleGrid columns={{ sm: 1, md: 2, lg: 3, xl: 4 }} spacing={6}>
-				{data?.pages.map((page, index) => (
+				{data.pages.map((page, index) => (
 					<React.Fragment key={index}>
 						{page.map((recipe) => (
 							<GridItem>

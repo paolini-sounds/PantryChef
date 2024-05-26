@@ -1,13 +1,15 @@
-import { Box, Grid, GridItem, Show } from '@chakra-ui/react';
+import { Box, Grid, GridItem } from '@chakra-ui/react';
 import RecipeGrid from './components/RecipeGrid';
 import NavBar from './components/NavBar';
-import SidePanel from './components/SidePanel';
+import SidePanel from './components/filterPanel/SidePanel';
 import { useState } from 'react';
-import GridHeading from './components/GridHeading';
 
 export interface RecipeQuery {
-	ingredients: string[];
-	restrictions: string[];
+	pageSize: number;
+	ingredients?: string[];
+	intolerances?: string[];
+	excludeIngredients?: string[];
+	diets?: string[];
 }
 
 function App() {
@@ -45,8 +47,7 @@ function App() {
 
 			<GridItem gridArea='main'>
 				<Box paddingX={{ sm: 2, md: 10, lg: 20 }}>
-					<GridHeading recipeQuery={recipeQuery} />
-					<RecipeGrid />
+					<RecipeGrid recipeQuery={recipeQuery} />
 				</Box>
 			</GridItem>
 		</Grid>
