@@ -32,7 +32,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 		fetchNextPage,
 		isFetchingNextPage,
 	} = useRecipes({ ...recipeQuery, pageSize });
-
+	console.log(data?.pages);
 	if (isLoading)
 		return (
 			<Flex justifyContent='center' alignItems='center' paddingY='20%'>
@@ -67,7 +67,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 			>
 				{(data?.pages as Array<any>).map((page, index) => (
 					<React.Fragment key={index}>
-						{page.map((recipe: Recipe) => (
+						{page.results.map((recipe: Recipe) => (
 							<GridItem key={recipe.id}>
 								<RecipeCard recipe={recipe} />
 							</GridItem>

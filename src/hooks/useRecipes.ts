@@ -1,6 +1,8 @@
 import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query';
-import apiClient from '../services/api-client';
+import APIClient, { FetchResponse } from '../services/apiClient';
 import { RecipeQuery } from './useQueryParams';
+
+const apiClient = new APIClient<Recipe>('/complexSearch');
 
 export interface Recipe {
 	id: number;
@@ -8,38 +10,31 @@ export interface Recipe {
 	image: string;
 }
 
-interface FetchRecipesResponse {
-	number: number;
-	results: Recipe[];
-	totalResults: number;
-}
+// interface FetchRecipesResponse {
+// 	number: number;
+// 	results: Recipe[];
+// 	totalResults: number;
+// }
 
 const useRecipes = (query: RecipeQuery) => {
 	const names = query.ingredients?.map((ingredient) => ingredient.name);
 	const ingredients = names?.join(',');
 
-	async function fetchRecipes({ pageParam = 1 }: QueryFunctionContext) {
-		const response = await apiClient.get<FetchRecipesResponse>(
-			'/complexSearch',
-			{
+	return useInfiniteQuery<FetchResponse<Recipe>, Error>({
+		queryKey: ['recipes', query],
+		queryFn: ({ pageParam = 1 }) =>
+			apiClient.getAll({
 				params: {
 					number: query.pageSize,
 					offset: ((pageParam as number) - 1) * query.pageSize,
 					includeIngredients: ingredients,
 					excludeIngredients: query.excludeParams,
 				},
-			}
-		);
-		return response.data.results;
-	}
-
-	return useInfiniteQuery<Recipe[], Error>({
-		queryKey: ['recipes', query],
-		queryFn: fetchRecipes,
+			}),
 		staleTime: 1 * 60 * 1000,
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, allPages) => {
-			if (lastPage.length === 0) return undefined;
+			if (lastPage.results.length === 0) return undefined;
 			return allPages.length + 1;
 		},
 	});
