@@ -1,9 +1,9 @@
 import {
-	Button,
 	Flex,
 	GridItem,
 	Heading,
 	SimpleGrid,
+	Spinner,
 	Stack,
 	Text,
 } from '@chakra-ui/react';
@@ -13,8 +13,8 @@ import React from 'react';
 import { bouncy } from 'ldrs';
 import GridHeading from './GridHeading';
 import { RecipeQuery } from '../hooks/useQueryParams';
-import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import { PiMaskSadLight } from 'react-icons/pi';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 bouncy.register();
 
@@ -54,6 +54,10 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 	}
 
 	if (error) return <Text>Error: {error.message}</Text>;
+
+	const fetchedRecipesCount =
+		data?.pages.reduce((total, page) => total + page.results.length, 0) || 0;
+
 	return (
 		<Flex
 			direction='column'
@@ -61,33 +65,27 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 			padding='0'
 		>
 			<GridHeading recipeQuery={recipeQuery} />
-			<SimpleGrid
-				columns={{ sm: 1, md: 2, lg: 2, xl: 3 }}
-				spacing={{ sm: 5, md: 3, lg: 2, xl: 1 }}
+			<InfiniteScroll
+				dataLength={fetchedRecipesCount}
+				hasMore={!!hasNextPage}
+				next={() => fetchNextPage()}
+				loader={<Spinner />}
 			>
-				{(data?.pages as Array<any>).map((page, index) => (
-					<React.Fragment key={index}>
-						{page.results.map((recipe: Recipe) => (
-							<GridItem key={recipe.id}>
-								<RecipeCard recipe={recipe} />
-							</GridItem>
-						))}
-					</React.Fragment>
-				))}
-			</SimpleGrid>
-
-			{hasNextPage && (
-				<Button
-					margin={5}
-					size='xl'
-					variant='link'
-					disabled={!hasNextPage || isFetchingNextPage}
-					onClick={() => fetchNextPage()}
+				<SimpleGrid
+					columns={{ sm: 1, md: 2, lg: 2, xl: 3 }}
+					spacing={{ sm: 5, md: 3, lg: 2, xl: 1 }}
 				>
-					Load More
-					<MdOutlineKeyboardArrowDown />
-				</Button>
-			)}
+					{(data?.pages as Array<any>).map((page, index) => (
+						<React.Fragment key={index}>
+							{page.results.map((recipe: Recipe) => (
+								<GridItem key={recipe.id}>
+									<RecipeCard recipe={recipe} />
+								</GridItem>
+							))}
+						</React.Fragment>
+					))}
+				</SimpleGrid>
+			</InfiniteScroll>
 		</Flex>
 	);
 };
