@@ -1,4 +1,4 @@
-import { QueryFunctionContext, useInfiniteQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { FetchResponse } from '../services/apiClient';
 import { RecipeQuery } from './useQueryParams';
 
