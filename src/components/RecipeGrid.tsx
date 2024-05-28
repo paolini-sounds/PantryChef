@@ -24,14 +24,10 @@ interface Props {
 
 const RecipeGrid = ({ recipeQuery }: Props) => {
 	const pageSize = 10;
-	const {
-		data,
-		error,
-		isLoading,
-		hasNextPage,
-		fetchNextPage,
-		isFetchingNextPage,
-	} = useRecipes({ ...recipeQuery, pageSize });
+	const { data, error, isLoading, hasNextPage, fetchNextPage } = useRecipes({
+		...recipeQuery,
+		pageSize,
+	});
 	console.log(data?.pages);
 	if (isLoading)
 		return (
