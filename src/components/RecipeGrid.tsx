@@ -78,7 +78,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 				>
 					{(data?.pages as Array<any>).map((page, index) => (
 						<React.Fragment key={index}>
-							{page.results.map((recipe: Recipe, i: number) => (
+							{page.results.map((recipe: Recipe) => (
 								<GridItem key={recipe.id}>
 									<RecipeCard recipe={recipe} />
 								</GridItem>

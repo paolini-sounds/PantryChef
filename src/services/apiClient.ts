@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { Recipe } from '../hooks/useRecipes';
 
 export interface FetchResponse<T> {
 	number: number;
