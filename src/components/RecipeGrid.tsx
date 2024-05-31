@@ -28,7 +28,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 		...recipeQuery,
 		pageSize,
 	});
-	console.log(data?.pages);
+
 	if (isLoading)
 		return (
 			<Flex justifyContent='center' alignItems='center' paddingY='20%'>
@@ -49,7 +49,12 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 		);
 	}
 
-	if (error) return <Text>Error: {error.message}</Text>;
+	if (error)
+		return (
+			<Text>
+				{error.name}: {error.message}
+			</Text>
+		);
 
 	const fetchedRecipesCount =
 		data?.pages.reduce((total, page) => total + page.results.length, 0) || 0;
@@ -73,7 +78,7 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 				>
 					{(data?.pages as Array<any>).map((page, index) => (
 						<React.Fragment key={index}>
-							{page.results.map((recipe: Recipe) => (
+							{page.results.map((recipe: Recipe, i: number) => (
 								<GridItem key={recipe.id}>
 									<RecipeCard recipe={recipe} />
 								</GridItem>
