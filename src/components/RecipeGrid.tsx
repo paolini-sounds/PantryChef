@@ -49,12 +49,22 @@ const RecipeGrid = ({ recipeQuery }: Props) => {
 		);
 	}
 
-	if (error)
+	if (error) {
+		const isStatusCode402 = error.message.includes('status code 402');
+		if (isStatusCode402) {
+			return (
+				<Text>
+					Sorry, the maximum daily points of this API service has been met.
+					Please try another day.{' '}
+				</Text>
+			);
+		}
 		return (
 			<Text>
 				{error.name}: {error.message}
 			</Text>
 		);
+	}
 
 	const fetchedRecipesCount =
 		data?.pages.reduce((total, page) => total + page.results.length, 0) || 0;
