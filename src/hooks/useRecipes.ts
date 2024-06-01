@@ -1,6 +1,7 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { FetchResponse } from '../services/apiClient';
 import { RecipeQuery } from './useQueryParams';
+import recipes from '../data/recipes';
 
 export const apiClient = new APIClient<Recipe>('/complexSearch');
 
@@ -46,19 +47,13 @@ const useRecipes = (query: RecipeQuery) => {
 					offset: 0,
 					totalResults: response.results.length,
 				})),
-		staleTime: 1 * 60 * 1000,
+		staleTime: 24 * 60 * 60 * 1000,
 		initialPageParam: 1,
 		getNextPageParam: (lastPage, allPages) => {
 			if (!lastPage || !lastPage.results || lastPage.results.length === 0)
 				return undefined;
 			return allPages.length + 1;
 		},
-		// initialData: {
-		// 	number: recipes.results.length,
-		// 	data: recipes.results,
-		// 	pageParams: [0],
-		// 	pages: [],
-		// },
 	});
 };
 export default useRecipes;
