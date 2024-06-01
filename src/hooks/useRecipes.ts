@@ -1,7 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { FetchResponse } from '../services/apiClient';
 import { RecipeQuery } from './useQueryParams';
-import recipes from '../data/recipes';
 
 export const apiClient = new APIClient<Recipe>('/complexSearch');
 
@@ -18,12 +17,6 @@ export interface Recipe {
 	vegan: boolean;
 	vegetarian: boolean;
 }
-
-// interface FetchRecipesResponse {
-// 	number: number;
-// 	results: Recipe[];
-// 	totalResults: number;
-// }
 
 const useRecipes = (query: RecipeQuery) => {
 	const names = query.ingredients?.map((ingredient) => ingredient.name);
