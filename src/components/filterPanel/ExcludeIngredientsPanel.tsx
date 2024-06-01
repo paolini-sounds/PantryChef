@@ -7,12 +7,11 @@ import {
 	Stack,
 } from '@chakra-ui/react';
 import { intoleranceOptions } from '../../hooks/useQueryParams';
+import { QueryContext } from '../contexts/QueryProvider';
+import { useContext } from 'react';
 
-interface Props {
-	onSelectIntolerance: (intolerance: string, isChecked: boolean) => void;
-}
-
-const ExcludeIngredientsPanel = ({ onSelectIntolerance }: Props) => {
+const ExcludeIngredientsPanel = () => {
+	const { dispatch } = useContext(QueryContext);
 	return (
 		<Stack marginBottom={5}>
 			<CheckboxGroup>
@@ -24,7 +23,11 @@ const ExcludeIngredientsPanel = ({ onSelectIntolerance }: Props) => {
 						<GridItem key={option.value}>
 							<Checkbox
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									onSelectIntolerance(option.value, e.target.checked)
+									dispatch({
+										type: 'SELECT_INTOLERANCE',
+										value: option.value,
+										isChecked: e.target.checked,
+									})
 								}
 							>
 								{option.label}

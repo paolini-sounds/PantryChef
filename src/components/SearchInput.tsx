@@ -1,19 +1,18 @@
 import { InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useContext, useRef } from 'react';
 import { FcSearch } from 'react-icons/fc';
+import { QueryContext } from './contexts/QueryProvider';
 
-interface Props {
-	onSearch: (search: string) => void;
-}
+const SearchInput = () => {
+	const { dispatch } = useContext(QueryContext);
 
-const SearchInput = ({ onSearch }: Props) => {
 	const ref = useRef<HTMLInputElement>(null);
 	return (
 		<form
 			onSubmit={(e) => {
 				e.preventDefault();
 				if (ref.current) {
-					onSearch(ref.current.value);
+					dispatch({ type: 'ADD_INGREDIENT', name: ref.current.value });
 					ref.current.value = '';
 				}
 			}}

@@ -3,23 +3,13 @@ import SearchInput from './SearchInput';
 
 import IncludeIngredientsList from './filterPanel/IncludeIngredientsList';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
-import { RecipeQuery } from '../hooks/useQueryParams';
 
 interface Props {
-	onSearch: (searchText: string) => void;
-	removeIngredient: (id: string) => void;
-	recipeQuery: RecipeQuery;
 	onOpen: () => void;
 	btnRef: React.RefObject<HTMLButtonElement>;
 }
 
-const NavBar = ({
-	onSearch,
-	removeIngredient,
-	recipeQuery,
-	onOpen,
-	btnRef,
-}: Props) => {
+const NavBar = ({ onOpen, btnRef }: Props) => {
 	return (
 		<Stack paddingX={2}>
 			<Flex
@@ -28,11 +18,8 @@ const NavBar = ({
 				alignItems='center'
 				paddingTop={10}
 			>
-				<SearchInput onSearch={onSearch} />
-				<IncludeIngredientsList
-					removeIngredient={removeIngredient}
-					recipeQuery={recipeQuery}
-				/>
+				<SearchInput />
+				<IncludeIngredientsList />
 			</Flex>
 			<Flex width='100%'>
 				<Button ref={btnRef} variant='link' onClick={onOpen}>

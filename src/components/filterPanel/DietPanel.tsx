@@ -6,12 +6,11 @@ import {
 	SimpleGrid,
 } from '@chakra-ui/react';
 import { dietOptions } from '../../hooks/useQueryParams';
+import { useContext } from 'react';
+import { QueryContext } from '../contexts/QueryProvider';
 
-interface Props {
-	onSelectDiet: (intolerance: string, isChecked: boolean) => void;
-}
-
-const DietPanel = ({ onSelectDiet }: Props) => {
+const DietPanel = () => {
+	const { dispatch } = useContext(QueryContext);
 	return (
 		<CheckboxGroup>
 			<Heading paddingY={3} fontSize='md'>
@@ -22,7 +21,11 @@ const DietPanel = ({ onSelectDiet }: Props) => {
 					<GridItem key={option.value}>
 						<Checkbox
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								onSelectDiet(option.value, e.target.checked)
+								dispatch({
+									type: 'SELECT_DIET',
+									value: option.value,
+									isChecked: e.target.checked,
+								})
 							}
 						>
 							{option.label}

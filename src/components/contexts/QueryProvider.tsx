@@ -1,3 +1,5 @@
+import React, { Dispatch, ReactNode, useReducer } from 'react';
+
 import cuid from 'cuid';
 
 interface Ingredient {
@@ -101,4 +103,27 @@ const queryReducer = (
 	}
 };
 
-export default queryReducer;
+interface QueryContextType {
+	recipeQuery: RecipeQuery;
+	dispatch: Dispatch<QueryAction>;
+}
+
+export const QueryContext = React.createContext<QueryContextType>(
+	{} as QueryContextType
+);
+
+interface Props {
+	children: ReactNode;
+}
+
+const QueryProvider = ({ children }: Props) => {
+	const [recipeQuery, dispatch] = useReducer(queryReducer, {} as RecipeQuery);
+
+	return (
+		<QueryContext.Provider value={{ recipeQuery, dispatch }}>
+			{children}
+		</QueryContext.Provider>
+	);
+};
+
+export default QueryProvider;

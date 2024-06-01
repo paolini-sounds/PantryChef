@@ -1,11 +1,9 @@
 import { Heading } from '@chakra-ui/react';
-import { RecipeQuery } from '../hooks/useQueryParams';
+import { useContext } from 'react';
+import { QueryContext } from './contexts/QueryProvider';
 
-interface Props {
-	recipeQuery: RecipeQuery;
-}
-
-const GridHeading = ({ recipeQuery }: Props) => {
+const GridHeading = () => {
+	const { recipeQuery } = useContext(QueryContext);
 	const results =
 		recipeQuery.ingredients?.length ||
 		recipeQuery.diets?.length ||

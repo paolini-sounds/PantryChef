@@ -16,22 +16,13 @@ import DietPanel from './DietPanel';
 import { RecipeQuery } from '../../hooks/useQueryParams';
 
 interface Props {
-	recipeQuery: RecipeQuery;
-	onSelectIntolerance: (intolerance: string, isChecked: boolean) => void;
-	onSelectDiet: (diet: string, isChecked: boolean) => void;
 	isOpen: boolean;
 	onOpen: () => void;
 	onClose: () => void;
 	btnRef: React.RefObject<HTMLButtonElement>;
 }
 
-const SidePanel = ({
-	onSelectIntolerance,
-	onSelectDiet,
-	isOpen,
-	onClose,
-	btnRef,
-}: Props) => {
+const SidePanel = ({ isOpen, onClose, btnRef }: Props) => {
 	return (
 		<>
 			<Drawer
@@ -52,11 +43,9 @@ const SidePanel = ({
 					</DrawerHeader>
 					<DrawerBody>
 						<Stack spacing={5}>
-							<ExcludeIngredientsPanel
-								onSelectIntolerance={onSelectIntolerance}
-							/>
+							<ExcludeIngredientsPanel />
 							<Divider />
-							<DietPanel onSelectDiet={onSelectDiet} />
+							<DietPanel />
 						</Stack>
 					</DrawerBody>
 				</DrawerContent>
