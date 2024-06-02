@@ -3,7 +3,6 @@ import RecipeGrid from './components/RecipeGrid';
 import NavBar from './components/NavBar';
 import SidePanel from './components/filterPanel/SidePanel';
 import { useRef } from 'react';
-
 import QueryProvider from './components/contexts/QueryProvider';
 
 function App() {

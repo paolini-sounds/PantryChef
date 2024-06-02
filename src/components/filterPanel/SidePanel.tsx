@@ -9,11 +9,8 @@ import {
 	Stack,
 	Divider,
 } from '@chakra-ui/react';
-
 import ExcludeIngredientsPanel from './ExcludeIngredientsPanel';
-
 import DietPanel from './DietPanel';
-import { RecipeQuery } from '../../hooks/useQueryParams';
 
 interface Props {
 	isOpen: boolean;
