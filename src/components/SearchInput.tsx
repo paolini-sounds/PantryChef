@@ -1,10 +1,10 @@
 import { InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
-import { useContext, useRef } from 'react';
+import { useRef } from 'react';
 import { FcSearch } from 'react-icons/fc';
-import { QueryContext } from './contexts/QueryProvider';
+import useRecipeQueryStore from '../store';
 
 const SearchInput = () => {
-	const { dispatch } = useContext(QueryContext);
+	const addIngredient = useRecipeQueryStore((s) => s.addIngredient);
 
 	const ref = useRef<HTMLInputElement>(null);
 	return (
@@ -12,7 +12,7 @@ const SearchInput = () => {
 			onSubmit={(e) => {
 				e.preventDefault();
 				if (ref.current) {
-					dispatch({ type: 'ADD_INGREDIENT', name: ref.current.value });
+					addIngredient(ref.current.value);
 					ref.current.value = '';
 				}
 			}}

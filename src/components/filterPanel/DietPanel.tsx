@@ -5,12 +5,23 @@ import {
 	Heading,
 	SimpleGrid,
 } from '@chakra-ui/react';
-import { dietOptions } from '../../hooks/useQueryParams';
-import { useContext } from 'react';
-import { QueryContext } from '../contexts/QueryProvider';
+import useRecipeQueryStore from '../../store';
 
 const DietPanel = () => {
-	const { dispatch } = useContext(QueryContext);
+	const dietOptions = [
+		{ value: 'glutenfree', label: 'Gluten Free' },
+		{ value: 'ketogenic', label: 'Ketogenic' },
+		{ value: 'vegetarian', label: 'Vegetarian' },
+		{ value: 'lacto-vegetarioan', label: 'Lacto-Vegetarian' },
+		{ value: 'ovo-vegetarian', label: 'Ovo-Vegetarian' },
+		{ value: 'vegan', label: 'Vegan' },
+		{ value: 'pescetarian', label: 'Pescetarian' },
+		{ value: 'paleo', label: 'Paleo' },
+		{ value: 'primal', label: 'Primal' },
+		{ value: 'low-fodmap', label: 'Low FODMAP' },
+		{ value: 'whole30', label: 'Whole30' },
+	];
+	const selectDiet = useRecipeQueryStore((s) => s.selectDiet);
 	return (
 		<CheckboxGroup>
 			<Heading paddingY={3} fontSize='md'>
@@ -21,11 +32,7 @@ const DietPanel = () => {
 					<GridItem key={option.value}>
 						<Checkbox
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								dispatch({
-									type: 'SELECT_DIET',
-									value: option.value,
-									isChecked: e.target.checked,
-								})
+								selectDiet(option.value, e.target.checked)
 							}
 						>
 							{option.label}

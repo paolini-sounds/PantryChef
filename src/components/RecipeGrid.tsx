@@ -9,17 +9,17 @@ import {
 } from '@chakra-ui/react';
 import useRecipes, { Recipe } from '../hooks/useRecipes';
 import RecipeCard from './RecipeCard';
-import React, { useContext } from 'react';
+import React from 'react';
 import { bouncy } from 'ldrs';
 import GridHeading from './GridHeading';
 import { PiMaskSadLight } from 'react-icons/pi';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { QueryContext } from './contexts/QueryProvider';
+import useRecipeQueryStore from '../store';
 
 bouncy.register();
 
 const RecipeGrid = () => {
-	const { recipeQuery } = useContext(QueryContext);
+	const recipeQuery = useRecipeQueryStore((s) => s.recipeQuery);
 	const pageSize = 10;
 	const { data, error, isLoading, hasNextPage, fetchNextPage } = useRecipes({
 		...recipeQuery,

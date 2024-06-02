@@ -1,9 +1,11 @@
 import { Tag, TagLabel, TagCloseButton, Flex } from '@chakra-ui/react';
-import { QueryContext } from '../contexts/QueryProvider';
-import { useContext } from 'react';
+import useRecipeQueryStore from '../../store';
 
 const IncludeIngredientsList = () => {
-	const { recipeQuery, dispatch } = useContext(QueryContext);
+	const [recipeQuery, deleteIngredient] = useRecipeQueryStore((s) => [
+		s.recipeQuery,
+		s.deleteIngredient,
+	]);
 
 	if (!recipeQuery.ingredients?.length) {
 		return null;
@@ -15,11 +17,7 @@ const IncludeIngredientsList = () => {
 				recipeQuery.ingredients.map((ingredient) => (
 					<Tag variant='outline' margin={1} key={ingredient.id}>
 						<TagLabel>{ingredient.name}</TagLabel>
-						<TagCloseButton
-							onClick={() =>
-								dispatch({ type: 'DELETE_INGREDIENT', id: ingredient.id })
-							}
-						/>
+						<TagCloseButton onClick={() => deleteIngredient(ingredient.id)} />
 					</Tag>
 				))}
 		</Flex>

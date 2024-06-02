@@ -6,12 +6,26 @@ import {
 	SimpleGrid,
 	Stack,
 } from '@chakra-ui/react';
-import { intoleranceOptions } from '../../hooks/useQueryParams';
-import { QueryContext } from '../contexts/QueryProvider';
-import { useContext } from 'react';
+import useRecipeQueryStore from '../../store';
 
 const ExcludeIngredientsPanel = () => {
-	const { dispatch } = useContext(QueryContext);
+	const intoleranceOptions = [
+		{ value: 'dairy', label: 'Dairy' },
+		{ value: 'egg', label: 'Egg' },
+		{ value: 'gluten', label: 'Gluten' },
+		{ value: 'grain', label: 'Grain' },
+		{ value: 'peanut', label: 'Peanut' },
+		{ value: 'seafood', label: 'Seafood' },
+		{ value: 'sesame', label: 'Sesame' },
+		{ value: 'shellfish', label: 'Shellfish' },
+		{ value: 'soy', label: 'Soy' },
+		{ value: 'sulfite', label: 'Sulfite' },
+		{ value: 'tree nut', label: 'Tree Nut' },
+		{ value: 'wheat', label: 'Wheat' },
+	];
+
+	const selectIntolerance = useRecipeQueryStore((s) => s.selectIntolerance);
+
 	return (
 		<Stack marginBottom={5}>
 			<CheckboxGroup>
@@ -23,11 +37,7 @@ const ExcludeIngredientsPanel = () => {
 						<GridItem key={option.value}>
 							<Checkbox
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-									dispatch({
-										type: 'SELECT_INTOLERANCE',
-										value: option.value,
-										isChecked: e.target.checked,
-									})
+									selectIntolerance(option.value, e.target.checked)
 								}
 							>
 								{option.label}
