@@ -6,7 +6,7 @@ interface Ingredient {
 	name: string;
 }
 
-export interface RecipeQuery {
+interface RecipeQuery {
 	pageSize: number;
 	ingredients?: Ingredient[];
 	intolerances?: string[];

@@ -14,17 +14,11 @@ import { bouncy } from 'ldrs';
 import GridHeading from './GridHeading';
 import { PiMaskSadLight } from 'react-icons/pi';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import useRecipeQueryStore from '../store';
 
 bouncy.register();
 
 const RecipeGrid = () => {
-	const recipeQuery = useRecipeQueryStore((s) => s.recipeQuery);
-	const pageSize = 10;
-	const { data, error, isLoading, hasNextPage, fetchNextPage } = useRecipes({
-		...recipeQuery,
-		pageSize,
-	});
+	const { data, error, isLoading, hasNextPage, fetchNextPage } = useRecipes();
 
 	if (isLoading)
 		return (

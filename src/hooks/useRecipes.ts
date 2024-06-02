@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { FetchResponse } from '../services/apiClient';
-import { RecipeQuery } from '../store';
+import useRecipeQueryStore from '../store';
 
 export const apiClient = new APIClient<Recipe>('/complexSearch');
 
@@ -18,20 +18,21 @@ export interface Recipe {
 	vegetarian: boolean;
 }
 
-const useRecipes = (query: RecipeQuery) => {
-	const names = query.ingredients?.map((ingredient) => ingredient.name);
+const useRecipes = () => {
+	const recipeQuery = useRecipeQueryStore((s) => s.recipeQuery);
+	const names = recipeQuery.ingredients?.map((ingredient) => ingredient.name);
 	const ingredients = names?.join(',');
 
 	return useInfiniteQuery<FetchResponse<Recipe>, Error>({
-		queryKey: ['recipes', query],
+		queryKey: ['recipes', recipeQuery],
 		queryFn: ({ pageParam = 1 }) =>
 			apiClient
 				.getAll({
 					params: {
-						number: query.pageSize,
-						offset: ((pageParam as number) - 1) * query.pageSize,
+						number: recipeQuery.pageSize,
+						offset: ((pageParam as number) - 1) * recipeQuery.pageSize,
 						includeIngredients: ingredients,
-						excludeIngredients: query.excludeParams,
+						excludeIngredients: recipeQuery.excludeParams,
 					},
 				})
 				.then((response) => ({
