@@ -8,9 +8,10 @@ export interface FetchResponse<T> {
 }
 
 const axiosInstance = axios.create({
-	baseURL: 'https://api.spoonacular.com/recipes',
+	baseURL:
+		'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes',
 	headers: {
-		'x-api-key': import.meta.env.VITE_APP_API_KEY as string,
+		'X-RapidAPI-Key': import.meta.env.VITE_APP_API_KEY as string,
 	},
 });
 
@@ -48,15 +49,9 @@ class APIClient<T> {
 			});
 	};
 
-	getInfo = (recipeId: number) => {
-		return axiosInstance
-			.get<T>(`/${recipeId}/information/includeNutrition=false`)
-			.then((res) => res.data);
-	};
-
 	getBulkData = (config: AxiosRequestConfig) => {
 		return axiosInstance
-			.get<T[]>('informationBulk', config)
+			.get<T[]>('/informationBulk', config)
 			.then((res) => res.data);
 	};
 }
