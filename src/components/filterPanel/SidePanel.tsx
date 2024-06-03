@@ -11,15 +11,12 @@ import {
 } from '@chakra-ui/react';
 import ExcludeIngredientsPanel from './ExcludeIngredientsPanel';
 import DietPanel from './DietPanel';
+import { useContext } from 'react';
+import DrawerContext from './drawerContext';
 
-interface Props {
-	isOpen: boolean;
-	onOpen: () => void;
-	onClose: () => void;
-	btnRef: React.RefObject<HTMLButtonElement>;
-}
+const SidePanel = () => {
+	const { isOpen, onClose, btnRef } = useContext(DrawerContext);
 
-const SidePanel = ({ isOpen, onClose, btnRef }: Props) => {
 	return (
 		<>
 			<Drawer
