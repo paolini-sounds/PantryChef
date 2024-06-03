@@ -1,7 +1,7 @@
 import { Button, Flex, Stack } from '@chakra-ui/react';
-import SearchInput from './SearchInput';
+import SearchInput from './filterPanel/SearchInput';
 
-import IncludeIngredientsList from './filterPanel/IncludeIngredientsList';
+import TagsList from './filterPanel/TagsList';
 import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 	btnRef: React.RefObject<HTMLButtonElement>;
 }
 
-const NavBar = ({ onOpen, btnRef }: Props) => {
+const NavBar = ({ btnRef, onOpen }: Props) => {
 	return (
 		<Stack paddingX={2}>
 			<Flex
@@ -19,7 +19,7 @@ const NavBar = ({ onOpen, btnRef }: Props) => {
 				paddingTop={10}
 			>
 				<SearchInput />
-				<IncludeIngredientsList />
+				<TagsList />
 			</Flex>
 			<Flex width='100%'>
 				<Button ref={btnRef} variant='link' onClick={onOpen}>

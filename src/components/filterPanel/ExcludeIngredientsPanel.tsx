@@ -6,7 +6,7 @@ import {
 	SimpleGrid,
 	Stack,
 } from '@chakra-ui/react';
-import useRecipeQueryStore from '../../store';
+import useRecipeQueryStore from '../../stores/recipeQueryStore';
 
 const ExcludeIngredientsPanel = () => {
 	const intoleranceOptions = [
@@ -24,7 +24,10 @@ const ExcludeIngredientsPanel = () => {
 		{ value: 'wheat', label: 'Wheat' },
 	];
 
-	const selectIntolerance = useRecipeQueryStore((s) => s.selectIntolerance);
+	const [selectIntolerance, recipeQuery] = useRecipeQueryStore((s) => [
+		s.selectIntolerance,
+		s.recipeQuery,
+	]);
 
 	return (
 		<Stack marginBottom={5}>
@@ -36,6 +39,7 @@ const ExcludeIngredientsPanel = () => {
 					{intoleranceOptions.map((option) => (
 						<GridItem key={option.value}>
 							<Checkbox
+								isChecked={recipeQuery.intolerances?.includes(option.value)}
 								onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 									selectIntolerance(option.value, e.target.checked)
 								}

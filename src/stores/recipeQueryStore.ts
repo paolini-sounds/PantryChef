@@ -18,8 +18,11 @@ interface RecipeQueryStore {
 	recipeQuery: RecipeQuery;
 	addIngredient: (inputText: string) => void;
 	deleteIngredient: (id: string) => void;
-	selectIntolerance: (value: string, isChecked: boolean) => void;
 	selectDiet: (value: string, isChecked: boolean) => void;
+	deleteDiet: (value: string) => void;
+	selectIntolerance: (value: string, isChecked: boolean) => void;
+	deleteIntolerance: (value: string) => void;
+	clearAll: () => void;
 }
 
 const useRecipeQueryStore = create<RecipeQueryStore>((set) => ({
@@ -74,11 +77,29 @@ const useRecipeQueryStore = create<RecipeQueryStore>((set) => ({
 				return {
 					recipeQuery: {
 						...store.recipeQuery,
-						intolerances: store.recipeQuery.intolerances?.length
-							? [...store.recipeQuery.intolerances, value]
+						diets: store.recipeQuery.diets?.length
+							? [...store.recipeQuery.diets, value]
 							: [value],
 					},
 				};
+			return {
+				recipeQuery: {
+					...store.recipeQuery,
+					diets: store.recipeQuery.diets?.filter((diet) => diet !== value),
+				},
+			};
+		}),
+	deleteDiet: (value) =>
+		set((store) => {
+			return {
+				recipeQuery: {
+					...store.recipeQuery,
+					diets: store.recipeQuery.diets?.filter((diet) => diet !== value),
+				},
+			};
+		}),
+	deleteIntolerance: (value) =>
+		set((store) => {
 			return {
 				recipeQuery: {
 					...store.recipeQuery,
@@ -88,6 +109,7 @@ const useRecipeQueryStore = create<RecipeQueryStore>((set) => ({
 				},
 			};
 		}),
+	clearAll: () => set(() => ({ recipeQuery: { pageSize: 10 } })),
 }));
 
 export default useRecipeQueryStore;

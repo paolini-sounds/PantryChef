@@ -1,6 +1,6 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { FetchResponse } from '../services/apiClient';
-import useRecipeQueryStore from '../store';
+import useRecipeQueryStore from '../stores/recipeQueryStore';
 
 export const apiClient = new APIClient<Recipe>('/complexSearch');
 

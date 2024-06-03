@@ -5,7 +5,7 @@ import {
 	Heading,
 	SimpleGrid,
 } from '@chakra-ui/react';
-import useRecipeQueryStore from '../../store';
+import useRecipeQueryStore from '../../stores/recipeQueryStore';
 
 const DietPanel = () => {
 	const dietOptions = [
@@ -21,7 +21,11 @@ const DietPanel = () => {
 		{ value: 'low-fodmap', label: 'Low FODMAP' },
 		{ value: 'whole30', label: 'Whole30' },
 	];
-	const selectDiet = useRecipeQueryStore((s) => s.selectDiet);
+	const [selectDiet, recipeQuery] = useRecipeQueryStore((s) => [
+		s.selectDiet,
+		s.recipeQuery,
+	]);
+
 	return (
 		<CheckboxGroup>
 			<Heading paddingY={3} fontSize='md'>
@@ -31,9 +35,10 @@ const DietPanel = () => {
 				{dietOptions.map((option) => (
 					<GridItem key={option.value}>
 						<Checkbox
-							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								selectDiet(option.value, e.target.checked)
-							}
+							isChecked={recipeQuery.diets?.includes(option.value)}
+							onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+								selectDiet(option.value, e.target.checked);
+							}}
 						>
 							{option.label}
 						</Checkbox>

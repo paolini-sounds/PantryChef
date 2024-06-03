@@ -1,18 +1,13 @@
-import { Center, Flex, GridItem, useDisclosure } from '@chakra-ui/react';
-import RecipeGrid from './components/RecipeGrid';
-import NavBar from './components/NavBar';
-import SidePanel from './components/filterPanel/SidePanel';
+import { useDisclosure, Flex, Center } from '@chakra-ui/react';
 import { useRef } from 'react';
+import RecipeGrid from '../components/RecipeGrid';
+import SidePanel from '../components/filterPanel/SidePanel';
 
-function App() {
+const HomePage = () => {
 	const { isOpen, onOpen, onClose } = useDisclosure();
 	const btnRef = useRef<HTMLButtonElement>(null);
 	return (
 		<Flex direction='column' justifyContent='center'>
-			<GridItem area='nav'>
-				<NavBar btnRef={btnRef} onOpen={onOpen} />
-			</GridItem>
-
 			<SidePanel
 				btnRef={btnRef}
 				isOpen={isOpen}
@@ -25,6 +20,6 @@ function App() {
 			</Center>
 		</Flex>
 	);
-}
+};
 
-export default App;
+export default HomePage;

@@ -1,5 +1,5 @@
 import { Heading } from '@chakra-ui/react';
-import useRecipeQueryStore from '../store';
+import useRecipeQueryStore from '../stores/recipeQueryStore';
 
 const GridHeading = () => {
 	const recipeQuery = useRecipeQueryStore((s) => s.recipeQuery);

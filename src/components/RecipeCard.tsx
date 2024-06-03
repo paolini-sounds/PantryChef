@@ -1,10 +1,9 @@
 import {
 	Badge,
-	Box,
+	Button,
 	Card,
 	CardBody,
 	Flex,
-	Heading,
 	Image,
 	Stack,
 } from '@chakra-ui/react';
@@ -13,9 +12,10 @@ import RecipeIconList from './RecipeIconList';
 
 interface Props {
 	recipe: Recipe;
+	onClick: (recipe: Recipe) => void;
 }
 
-const RecipeCard = ({ recipe }: Props) => {
+const RecipeCard = ({ recipe, onClick }: Props) => {
 	const displayReadyTime = (readyMinutes: number) => {
 		if (readyMinutes < 60) return `${readyMinutes} minutes`;
 		let hours = Math.floor(readyMinutes / 60);
@@ -36,11 +36,19 @@ const RecipeCard = ({ recipe }: Props) => {
 							</Badge>
 						</Flex>
 
-						<Box padding={3}>
-							<Heading textAlign='center' fontSize='lg'>
+						<Flex minHeight='75px' justifyContent='center' padding={3}>
+							<Button
+								onClick={() => onClick(recipe)}
+								whiteSpace='normal'
+								variant='link'
+								color='green.800'
+							>
 								{recipe.title}
-							</Heading>
-						</Box>
+							</Button>
+							{/* <Heading textAlign='center' fontSize='lg'>
+								{recipe.title}
+							</Heading> */}
+						</Flex>
 					</Stack>
 				</CardBody>
 			</Card>

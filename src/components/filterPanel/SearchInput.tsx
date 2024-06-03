@@ -1,7 +1,7 @@
 import { InputGroup, InputLeftElement, Input } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { FcSearch } from 'react-icons/fc';
-import useRecipeQueryStore from '../store';
+import useRecipeQueryStore from '../../stores/recipeQueryStore';
 
 const SearchInput = () => {
 	const addIngredient = useRecipeQueryStore((s) => s.addIngredient);
