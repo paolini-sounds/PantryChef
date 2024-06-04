@@ -6,7 +6,7 @@ import { MdOutlineKeyboardArrowRight } from 'react-icons/md';
 import { useContext } from 'react';
 import DrawerContext from './filterPanel/drawerContext';
 
-const NavBar = () => {
+const SearchBar = () => {
 	const { btnRef, onOpen } = useContext(DrawerContext);
 
 	return (
@@ -31,4 +31,4 @@ const NavBar = () => {
 	);
 };
 
-export default NavBar;
+export default SearchBar;

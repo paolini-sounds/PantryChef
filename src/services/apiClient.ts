@@ -12,6 +12,7 @@ const axiosInstance = axios.create({
 		'https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes',
 	headers: {
 		'X-RapidAPI-Key': import.meta.env.VITE_APP_API_KEY as string,
+		'X-Ratelimit-Requests-Limit': 5000,
 	},
 });
 
@@ -22,11 +23,9 @@ class APIClient<T> {
 		this.endpoint = endpoint;
 	}
 
-	// getAll = (config: AxiosRequestConfig) => {
-	// 	return axiosInstance
-	// 		.get<FetchResponse<T>>(this.endpoint, config)
-	// 		.then((res) => res.data);
-	// };
+	get = (id: string) => {
+		return axiosInstance.get<T>(`/${id}/information`).then((res) => res.data);
+	};
 
 	getAll = (config: AxiosRequestConfig) => {
 		let initData = {};

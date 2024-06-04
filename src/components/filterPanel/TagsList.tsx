@@ -5,7 +5,6 @@ import {
 	Flex,
 	VStack,
 	Button,
-	Text,
 } from '@chakra-ui/react';
 import useRecipeQueryStore from '../../stores/recipeQueryStore';
 
@@ -34,7 +33,9 @@ const TagsList = () => {
 
 	return (
 		<VStack>
-			<Text>Tags:</Text>
+			<Button variant='outline' onClick={clearAll} size='sm'>
+				Clear All Filters
+			</Button>
 			<Flex>
 				{recipeQuery.ingredients &&
 					recipeQuery.ingredients.map((ingredient) => (
@@ -58,9 +59,6 @@ const TagsList = () => {
 						</Tag>
 					))}
 			</Flex>
-			<Button onClick={clearAll} size='sm'>
-				Clear All
-			</Button>
 		</VStack>
 	);
 };

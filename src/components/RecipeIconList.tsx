@@ -1,18 +1,16 @@
-import { Recipe } from '../hooks/useRecipes';
+import { Recipe } from '../entities/Recipe';
 
 import { LuWheatOff, LuSalad } from 'react-icons/lu';
 import { IoIosLeaf } from 'react-icons/io';
 import { PiCow } from 'react-icons/pi';
-import { HStack, Icon, Tag } from '@chakra-ui/react';
-import { useState } from 'react';
+import { HStack, Icon, Tooltip } from '@chakra-ui/react';
 
 interface Props {
 	recipe: Recipe;
+	size?: 'sm' | 'lg';
 }
 
-const RecipeIconList = ({ recipe }: Props) => {
-	const [hoverText, setText] = useState<string>('');
-
+const RecipeIconList = ({ recipe, size = 'sm' }: Props) => {
 	const iconMap = [
 		recipe.glutenFree && {
 			text: 'Gluten Free',
@@ -33,16 +31,27 @@ const RecipeIconList = ({ recipe }: Props) => {
 			{iconMap.map(
 				(value) =>
 					value && (
-						<Icon
+						<Tooltip
+							hasArrow
+							aria-label='A tooltip'
+							bg='green.800'
+							label={value.text}
 							key={value.text}
-							as={value.icon}
-							color={value.color}
-							onMouseEnter={() => setText(value.text)}
-							onMouseLeave={() => setText('')}
-						/>
+						>
+							<span>
+								<Icon
+									margin={size === 'lg' ? 2 : 0}
+									// w={size === 'lg' ? 6 : 4}
+									// h={size === 'lg' ? 6 : 4}
+
+									boxSize={size === 'sm' ? 4 : 6}
+									as={value.icon}
+									color={value.color}
+								/>
+							</span>
+						</Tooltip>
 					)
 			)}
-			{hoverText !== '' ? <Tag>{hoverText}</Tag> : null}
 		</HStack>
 	);
 };

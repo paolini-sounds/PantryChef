@@ -7,20 +7,20 @@ import {
 	Stack,
 	Text,
 } from '@chakra-ui/react';
-import useRecipes, { Recipe } from '../hooks/useRecipes';
+import useRecipes from '../hooks/useRecipes';
+
 import RecipeCard from './RecipeCard';
-import React, { useState } from 'react';
+import React from 'react';
 import { bouncy } from 'ldrs';
 import GridHeading from './GridHeading';
 import { PiMaskSadLight } from 'react-icons/pi';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import RecipePage from './RecipePage';
+import { Recipe } from '../entities/Recipe';
 
 bouncy.register();
 
 const RecipeGrid = () => {
 	const { data, error, isLoading, hasNextPage, fetchNextPage } = useRecipes();
-	const [recipePage, setRecipePage] = useState<Recipe>({} as Recipe);
 
 	if (isLoading)
 		return (
@@ -62,8 +62,6 @@ const RecipeGrid = () => {
 	const fetchedRecipesCount =
 		data?.pages.reduce((total, page) => total + page.results.length, 0) || 0;
 
-	if (recipePage.id) return <RecipePage recipe={recipePage} />;
-
 	return (
 		<Flex
 			direction='column'
@@ -85,10 +83,7 @@ const RecipeGrid = () => {
 						<React.Fragment key={index}>
 							{page.results.map((recipe: Recipe) => (
 								<GridItem key={recipe.id}>
-									<RecipeCard
-										onClick={(selectedRecipe) => setRecipePage(selectedRecipe)}
-										recipe={recipe}
-									/>
+									<RecipeCard recipe={recipe} />
 								</GridItem>
 							))}
 						</React.Fragment>

@@ -1,22 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 import APIClient, { FetchResponse } from '../services/apiClient';
 import useRecipeQueryStore from '../stores/recipeQueryStore';
+import { Recipe } from '../entities/Recipe';
 
 export const apiClient = new APIClient<Recipe>('/complexSearch');
-
-export interface Recipe {
-	id: number;
-	title: string;
-	image: string;
-	readyInMinutes: number;
-	servings: number;
-	diets: string[];
-	spoonacularScore: number;
-	glutenFree: boolean;
-	dairyFree: boolean;
-	vegan: boolean;
-	vegetarian: boolean;
-}
 
 const useRecipes = () => {
 	const recipeQuery = useRecipeQueryStore((s) => s.recipeQuery);
