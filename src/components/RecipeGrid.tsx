@@ -29,11 +29,15 @@ const RecipeGrid = () => {
 			</Flex>
 		);
 
-	if (Array.isArray(data?.pages[0]) && data?.pages[0]?.length === 0) {
+	if (
+		Array.isArray(data?.pages[0].results) &&
+		data?.pages[0].results.length === 0
+	) {
 		return (
 			<Stack
 				justifyContent='center'
 				marginTop={10}
+				padding={10}
 				direction={{ sm: 'column', md: 'row' }}
 			>
 				<Heading>Sorry, no recipes found</Heading>
