@@ -52,7 +52,7 @@ const RecipePage = () => {
 			>
 				<Card
 					maxWidth={{ base: '1000px', md: '500px', lg: '1200px' }}
-					minWidth={{ base: 'md', lg: '800px' }}
+					minWidth={{ base: '0', lg: '800px' }}
 					borderRadius={10}
 					overflow='hidden'
 					direction={{ base: 'column', lg: 'row' }}
@@ -98,7 +98,7 @@ const RecipePage = () => {
 				<Box
 					paddingLeft={10}
 					maxWidth={{ base: '1000px', md: '500px', lg: '1000px' }}
-					minWidth={{ base: 'md', lg: '800px' }}
+					minWidth={{ base: '0', lg: '800px' }}
 				>
 					<List>
 						<Heading marginY={{ base: 5, lg: 10 }} size='lg'>
